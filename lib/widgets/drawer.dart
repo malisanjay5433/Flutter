@@ -37,14 +37,6 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(CupertinoIcons.profile_circled, color: Colors.white),
-            title: Text(
-              "Projects",
-              textScaleFactor: 1.5,
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-            ListTile(
             leading: Icon(CupertinoIcons.at, color: Colors.white),
             title: Text(
               "Contact",
