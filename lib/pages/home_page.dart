@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter1/models/catalog.dart';
+import 'package:flutter1/pages/home_details_page.dart';
 import 'package:flutter1/widgets/drawer.dart';
 import 'package:flutter1/widgets/item.dart';
 import 'package:flutter1/widgets/theam.dart';
@@ -44,11 +45,9 @@ class _HomePageState extends State<HomePage> {
             children: [
               CatalogHeader(),
               if (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
-                CatalogList().expand()
+                CatalogList().py16().expand()
               else
-                Center(
-                  child: CircularProgressIndicator(),
-                )
+                CircularProgressIndicator().centered().py16().expand()
             ],
           ),
         ),
@@ -81,7 +80,9 @@ class CatalogItem extends StatelessWidget {
     return VxBox(
         child: Row(
       children: [
-        CatalogImage(image: catalog.image),
+        Hero(
+            tag: Key(catalog.id.toString()),
+            child: CatalogImage(image: catalog.image)),
         Expanded(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,7 +102,8 @@ class CatalogItem extends StatelessWidget {
                   shape: MaterialStateProperty.all(StadiumBorder()),
                 ),
               )
-            ])
+            ]
+            )
           ],
         )),
       ],
@@ -125,7 +127,14 @@ class CatalogList extends StatelessWidget {
       itemCount: CatalogModel.items.length,
       itemBuilder: (context, index) {
         final catalog = CatalogModel.items[index];
-        return CatalogItem(catalog: catalog);
+        return InkWell(
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => HomeDetailsPage(
+                          catalog: catalog,
+                        ))),
+            child: CatalogItem(catalog: catalog));
       },
     );
   }
