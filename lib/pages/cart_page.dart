@@ -29,7 +29,10 @@ class _CartTotal extends StatelessWidget {
           "\$${991.00}".text.xl4.color(Colors.deepPurple).make(),
           30.widthBox,
           ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: "Buying not supported yet".text.make()));
+                  },
                   child: Text("Buy").text.xl.color(Colors.white).make())
               .w32(context)
         ]));
@@ -42,6 +45,7 @@ class _CartList extends StatefulWidget {
 }
 
 class __CartListState extends State<_CartList> {
+  final _cart = CartModel
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
