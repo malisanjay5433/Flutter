@@ -3,14 +3,12 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter1/models/cart.dart';
 import 'package:flutter1/models/catalog.dart';
 import 'package:flutter1/pages/home_details_page.dart';
 import 'package:flutter1/untils/routes.dart';
-import 'package:flutter1/widgets/drawer.dart';
-import 'package:flutter1/widgets/item.dart';
 import 'package:flutter1/widgets/theam.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:flutter1/home_widgets/add_to_cart.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -68,9 +66,7 @@ class _HomePageState extends State<HomePage> {
 
 class CatalogImage extends StatelessWidget {
   final String image;
-
   const CatalogImage({Key key, @required this.image}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return (Image.network(
@@ -102,7 +98,7 @@ class CatalogItem extends StatelessWidget {
             10.heightBox,
             ButtonBar(alignment: MainAxisAlignment.spaceAround, children: [
               "\$${catalog.price}".text.xl.color(MyTheam.deepPurple).make(),
-              _AddToCart(catalog: catalog)
+              AddToCart(catalog: catalog)
             ])
           ],
         )),
@@ -111,46 +107,6 @@ class CatalogItem extends StatelessWidget {
   }
 }
 
-class _AddToCart extends StatefulWidget {
-  final Item catalog;
-  const _AddToCart({
-    Key key,
-    this.catalog,
-  }) : super(key: key);
-
-  @override
-  State<_AddToCart> createState() => __AddToCartState();
-}
-
-class __AddToCartState extends State<_AddToCart> {
-  bool isAdded = false;
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        isAdded = isAdded.toggle();
-        final _catalog = CatalogModel();
-        final _cart = CartModel();
-        _cart.catalog = _catalog;
-        _cart.add(widget.catalog);
-        setState(() {});
-      },
-      child: isAdded ? Icon(Icons.done) : "Buy".text.make(),
-      style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(MyTheam.deepPurple),
-          shape: MaterialStateProperty.all(StadiumBorder())),
-    );
-  }
-}
-
-// class Catalog extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-
-//     );
-//   }
-// }
 class CatalogList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -171,7 +127,6 @@ class CatalogList extends StatelessWidget {
     );
   }
 }
-
 class CatalogHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

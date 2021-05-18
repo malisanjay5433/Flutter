@@ -31,6 +31,6 @@ class CartModel {
 
 // Remove item
   void remove(Item item) {
-    _itemIds.add(item.id);
+    _itemIds.remove(item.id);
   }
 }
