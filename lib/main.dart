@@ -5,9 +5,10 @@ import 'package:flutter1/pages/login_page.dart';
 import 'package:flutter1/untils/routes.dart';
 import 'package:flutter1/widgets/theam.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:velocity_x/velocity_x.dart';
 void main() {
-  runApp(MyApp());
+  runApp(
+    VxState(store: null, child:MyApp()));
 }
 
 class MyApp extends StatelessWidget {
