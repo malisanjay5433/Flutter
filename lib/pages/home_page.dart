@@ -96,10 +96,14 @@ class CatalogItem extends StatelessWidget {
             catalog.name.text.lg.color(MyTheam.deepPurple).make(),
             catalog.desc.text.textStyle(context.captionStyle).make(),
             10.heightBox,
-            ButtonBar(alignment: MainAxisAlignment.spaceAround, children: [
-              "\$${catalog.price}".text.xl.color(MyTheam.deepPurple).make(),
-              AddToCart(catalog: catalog)
-            ])
+            ButtonBar(
+              alignment: MainAxisAlignment.spaceBetween,
+              buttonPadding: EdgeInsets.zero,
+              children: [
+                "\$${catalog.price}".text.xl.color(MyTheam.deepPurple).make(),
+                AddToCart(catalog: catalog)
+              ],
+            ).pOnly(right: 8.0)
           ],
         )),
       ],
@@ -127,6 +131,7 @@ class CatalogList extends StatelessWidget {
     );
   }
 }
+
 class CatalogHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
