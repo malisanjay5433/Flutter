@@ -3,12 +3,15 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter1/core/store.dart';
+import 'package:flutter1/models/cart.dart';
 import 'package:flutter1/models/catalog.dart';
 import 'package:flutter1/pages/home_details_page.dart';
 import 'package:flutter1/untils/routes.dart';
 import 'package:flutter1/widgets/theam.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter1/home_widgets/add_to_cart.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,6 +19,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final url = "https://api.jsonbin.io/b/604dbddb683e7e079c4eefd3";
   @override
   void initState() {
     // TODO: implement initState
@@ -25,9 +29,10 @@ class _HomePageState extends State<HomePage> {
 
   loadJSON() async {
     await Future.delayed(Duration(seconds: 2));
-    final json =
-        await rootBundle.loadString("assets/images/files/localcatalog.json");
-    final decodedData = jsonDecode(json);
+    // final json =
+    //     await rootBundle.loadString("assets/images/files/localcatalog.json");
+    final json = await http.get(Uri.parse(url));
+    final decodedData = jsonDecode(json.body);
     var productData = decodedData["products"];
     CatalogModel.items =
         List.from(productData).map<Item>((item) => Item.fromMap(item)).toList();
@@ -36,13 +41,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final _cart = (VxState.store as MyStore).cart;
     return Scaffold(
       backgroundColor: MyTheam.offWhite,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, MyRoutes.cartRoute);
-        },
-        child: Icon(CupertinoIcons.cart),
+      floatingActionButton: VxBuilder(
+        mutations: {AddMutation, RemoveMutation},
+        builder: (context, _) => FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, MyRoutes.cartRoute);
+          },
+          child: Icon(CupertinoIcons.cart),
+        ).badge(color: Vx.red500, size: 20, count: _cart.items.length),
       ),
       body: SafeArea(
         child: Container(
